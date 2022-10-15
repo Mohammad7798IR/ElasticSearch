@@ -16,7 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICustumerRepository, CustumerRepository>();
 builder.Services.AddTransient<ElasticService>();
 
 builder.Services
@@ -27,10 +27,10 @@ builder.Services
 
 builder.Services.AddSingleton(a =>
 new ElasticClient(
-    new ConnectionSettings()
+    new ConnectionSettings(new Uri(configuration.GetSection("ElasticSearch")["BaseAddress"]))
              .DisableDirectStreaming()
              //.DefaultIndex("example_users")
-             .DefaultMappingFor<User>(a => a.IndexName("example-users4"))));
+             .DefaultMappingFor<User>(a => a.IndexName("customer_companies"))));
 
 
 var app = builder.Build();
