@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Mohammadali.Ebrahimz\\source\\repos\\ElasticExample\\ElasticExample\\ElasticExample.csproj": {}
+    "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Mohammadali.Ebrahimz\\source\\repos\\ElasticExample\\ElasticExample\\ElasticExample.csproj": {
+    "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Mohammadali.Ebrahimz\\source\\repos\\ElasticExample\\ElasticExample\\ElasticExample.csproj",
+        "projectUniqueName": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
         "projectName": "ElasticExample",
-        "projectPath": "C:\\Users\\Mohammadali.Ebrahimz\\source\\repos\\ElasticExample\\ElasticExample\\ElasticExample.csproj",
+        "projectPath": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
         "packagesPath": "C:\\Users\\Mohammadali.Ebrahimz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Mohammadali.Ebrahimz\\source\\repos\\ElasticExample\\ElasticExample\\obj\\",
+        "outputPath": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Mohammadali.Ebrahimz\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -41,13 +41,27 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "target": "Package",
+              "version": "[6.0.10, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.9, )"
+              "version": "[6.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[6.0.10, )"
             },
             "Microsoft.Extensions.DependencyInjection": {
               "target": "Package",
-              "version": "[6.0.0, )"
+              "version": "[6.0.1, )"
             },
             "NEST": {
               "target": "Package",

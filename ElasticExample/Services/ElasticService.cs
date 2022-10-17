@@ -1,5 +1,6 @@
 ﻿using DapperExample.Models.Entites;
 using ElasticExample.Models;
+using ElasticExample.Models.AdventureWorksLT2019;
 using ElasticExample.Repositories;
 using Nest;
 
@@ -10,81 +11,93 @@ namespace ElasticExample.Services
     {
         private readonly ElasticClient _elasticClient;
 
-        private readonly IUserRepository _userRepository;
+        private readonly ICustumerRepository _custumerRepository;
 
         private readonly string _indexName;
 
         public ElasticService
-            (ElasticClient elasticClient, IUserRepository userRepository)
+            (ElasticClient elasticClient, ICustumerRepository custumerrepository)
         {
-            _indexName = "example_users4";
+            _indexName = "customer_companies";
 
             _elasticClient = elasticClient;
 
-            _userRepository = userRepository;
+            _custumerRepository = custumerrepository;
 
             elasticClient.Indices
                   .Create(_indexName, index => index
                   .Settings(a => a.NumberOfShards(1).NumberOfReplicas(1).Analysis(Analysis))
-                  .Map<User>(MapUsers));
+                  .Map<Customer>(MapCustomers));
         }
 
 
         public void AddUsers()
         {
 
-            var data = _userRepository.GetAllAsync();
+            var data = _custumerRepository.GetAllAsync();
 
-            _elasticClient.Bulk(b => b
-               .Index(_indexName)
-               .IndexMany(data));
+            _elasticClient.BulkAll(data, a => a
+            .Index(_indexName)
+            .BackOffRetries(100)
+            .BackOffTime("30s")
+            .RefreshOnCompleted()
+            .Size(data.Count()));
 
+        }
+
+        public async Task DeleteIndex()
+        {
+            await _elasticClient.Indices.DeleteAsync(_indexName);
         }
 
         public List<ElasticSuggestViewModel> SuggestAsync(string query)
         {
-            var result = _elasticClient.Search<User>(a =>
+
+            var result = _elasticClient.Search<Customer>(a =>
                   a.Index(_indexName)
                    .Source(sf =>
                            sf.Includes(f => f
-                                 .Field(a => a.UserName)
-                                 .Field(a => a.Id)))
+                                 .Field(a => a.CompanyName)
+                                 .Field(a => a.Title)))
 
                    .Suggest(su =>
-                            su.Completion("users-suggestions", c =>
+                            su.Completion("custumers-suggestions", c =>
                                                          c.Prefix(query)
                                                          .Field(a => a.Suggest)
                                                          .SkipDuplicates())));
 
 
 
-            return result.Suggest["users-suggestions"]
-         .FirstOrDefault()?
-         .Options
-         .Select(suggest => new ElasticSuggestViewModel
-         {
-             Content = (!string.IsNullOrWhiteSpace(suggest.Source.UserName)
-                       ? suggest.Source.UserName
-                       : string.Empty),
-
-             Key = suggest.Source.Id
 
 
-         })
-         .ToList();
+
+            return result.Suggest["custumers-suggestions"]
+                     .FirstOrDefault()?
+                     .Options
+                     .Select(suggest => new ElasticSuggestViewModel
+                     {
+                         Content = (!string.IsNullOrWhiteSpace(suggest.Source.CompanyName)
+                                   ? suggest.Source.CompanyName
+                                   : string.Empty),
+
+                         Key = suggest.Source.CustomerId
+
+
+                     })
+                     .ToList();
         }
 
 
-        private static TypeMappingDescriptor<User> MapUsers(TypeMappingDescriptor<User> map) => map
+        private static TypeMappingDescriptor<Customer> MapCustomers(TypeMappingDescriptor<Customer> map) => map
                 .AutoMap()
                 .Properties(ps => ps
                     .Text(t => t
-                        .Name(p => p.UserName)
-                        .Analyzer("users-analyzer")
+                        .Name(p => p.CompanyName)
+                        .Analyzer("custumers-analyzer")
                         .Fields(f => f
                             .Text(p => p
                                 .Name("keyword")
-                                .Analyzer("users-keyword")
+                                .Analyzer("custumers-keyword")
                             )
                             .Keyword(p => p
                                 .Name("raw")
@@ -92,15 +105,15 @@ namespace ElasticExample.Services
                         )
                     )
                     .Completion(c => c
-                        .Name(p => p.Suggest)
-                    ));
+                        .Name(p => p.Suggest)));
+
 
         private static AnalysisDescriptor Analysis(AnalysisDescriptor analysis) => analysis
                 .Tokenizers(tokenizers => tokenizers
-                    .Pattern("users-tokenizer", p => p.Pattern(@"\W+"))
+                    .Pattern("custumers-tokenizer", p => p.Pattern(@"\W+"))
                 )
                 .TokenFilters(tokenFilters => tokenFilters
-                    .WordDelimiter("users-words", w => w
+                    .WordDelimiter("custumers-words", w => w
                         .SplitOnCaseChange()
                         .PreserveOriginal()
                         .SplitOnNumerics()
@@ -109,11 +122,11 @@ namespace ElasticExample.Services
                     )
                 )
                 .Analyzers(analyzers => analyzers
-                    .Custom("users-analyzer", c => c
-                        .Tokenizer("users-tokenizer")
-                        .Filters("users-words", "lowercase")
+                    .Custom("custumers-analyzer", c => c
+                        .Tokenizer("custumers-tokenizer")
+                        .Filters("custumers-words", "lowercase")
                     )
-                    .Custom("users-keyword", c => c
+                    .Custom("custumers-keyword", c => c
                         .Tokenizer("keyword")
                         .Filters("lowercase")
                     ));
