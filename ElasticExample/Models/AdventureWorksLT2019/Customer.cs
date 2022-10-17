@@ -75,6 +75,8 @@ namespace ElasticExample.Models.AdventureWorksLT2019
                 /// Date and time the record was last updated.
                 /// </summary>
                 public DateTime ModifiedDate { get; set; }
+
+
                 public CompletionField? Suggest => new()
                 {
                         Input = new List<string>

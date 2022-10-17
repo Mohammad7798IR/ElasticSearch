@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Amir.Ekramian\\source\\repos\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {}
+    "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Amir.Ekramian\\source\\repos\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {
+    "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Amir.Ekramian\\source\\repos\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
+        "projectUniqueName": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
         "projectName": "ElasticExample",
-        "projectPath": "C:\\Users\\Amir.Ekramian\\source\\repos\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
-        "packagesPath": "C:\\Users\\Amir.Ekramian\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Amir.Ekramian\\source\\repos\\ElasticSearch\\ElasticExample\\obj\\",
+        "projectPath": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\ElasticExample.csproj",
+        "packagesPath": "C:\\Users\\Mohammadali.Ebrahimz\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Mohammadali.Ebrahimz\\Desktop\\Elastic\\ElasticSearch\\ElasticExample\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Amir.Ekramian\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Mohammadali.Ebrahimz\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,8 +22,8 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.samansalamat.ir/nuget": {}
+          "http://nuget.samansalamat.ir/nuget": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {

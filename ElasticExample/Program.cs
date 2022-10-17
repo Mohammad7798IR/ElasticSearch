@@ -4,6 +4,7 @@ using ElasticExample.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Nest;
 using ElasticExample.Services;
+using ElasticExample.Models.AdventureWorksLT2019;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +31,7 @@ new ElasticClient(
     new ConnectionSettings(new Uri(configuration.GetSection("ElasticSearch")["BaseAddress"]))
              .DisableDirectStreaming()
              //.DefaultIndex("example_users")
-             .DefaultMappingFor<User>(a => a.IndexName("customer_companies"))));
+             .DefaultMappingFor<Customer>(a => a.IndexName("customer_companies2"))));
 
 
 var app = builder.Build();
