@@ -1,9 +1,7 @@
-﻿using DapperExample.Models.Entites;
-using ElasticExample.Models;
+﻿using ElasticExample.Models;
 using ElasticExample.Models.AdventureWorksLT2019;
 using ElasticExample.Repositories;
 using Nest;
-
 
 namespace ElasticExample.Services
 {
@@ -18,7 +16,7 @@ namespace ElasticExample.Services
         public ElasticService
             (ElasticClient elasticClient, ICustumerRepository custumerrepository)
         {
-            _indexName = "customer_companies";
+            _indexName = "customer_company";
 
             _elasticClient = elasticClient;
 
@@ -30,19 +28,17 @@ namespace ElasticExample.Services
                   .Map<Customer>(MapCustomers));
         }
 
-
         public void AddUsers()
         {
+            var settings = new ConnectionSettings(new Uri("http://elasticsearchengine:9200"));
+
+            var pingResponse = _elasticClient.Ping(new PingRequest());
 
             var data = _custumerRepository.GetAllAsync();
 
-            _elasticClient.BulkAll(data, a => a
-            .Index(_indexName)
-            .BackOffRetries(100)
-            .BackOffTime("30s")
-            .RefreshOnCompleted()
-            .Size(data.Count()));
-
+            var result = _elasticClient.Bulk(a => a
+             .Index(_indexName)
+             .IndexMany(data));
         }
 
         public async Task DeleteIndex()
@@ -52,7 +48,6 @@ namespace ElasticExample.Services
 
         public List<ElasticSuggestViewModel> SuggestAsync(string query)
         {
-
             var result = _elasticClient.Search<Customer>(a =>
                   a.Index(_indexName)
                    .Source(sf =>
@@ -66,11 +61,6 @@ namespace ElasticExample.Services
                                                          .Field(a => a.Suggest)
                                                          .SkipDuplicates())));
 
-
-
-
-
-
             return result.Suggest["custumers-suggestions"]
                      .FirstOrDefault()?
                      .Options
@@ -81,12 +71,9 @@ namespace ElasticExample.Services
                                    : string.Empty),
 
                          Key = suggest.Source.CustomerId
-
-
                      })
                      .ToList();
         }
-
 
         private static TypeMappingDescriptor<Customer> MapCustomers(TypeMappingDescriptor<Customer> map) => map
                 .AutoMap()
@@ -106,7 +93,6 @@ namespace ElasticExample.Services
                     )
                     .Completion(c => c
                         .Name(p => p.Suggest)));
-
 
         private static AnalysisDescriptor Analysis(AnalysisDescriptor analysis) => analysis
                 .Tokenizers(tokenizers => tokenizers
@@ -130,6 +116,5 @@ namespace ElasticExample.Services
                         .Tokenizer("keyword")
                         .Filters("lowercase")
                     ));
-
     }
 }

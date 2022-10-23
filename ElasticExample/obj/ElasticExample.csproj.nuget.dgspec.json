@@ -63,9 +63,13 @@
               "target": "Package",
               "version": "[6.0.1, )"
             },
+            "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.14.0, )"
+            },
             "NEST": {
               "target": "Package",
-              "version": "[7.17.4, )"
+              "version": "[7.17.5, )"
             },
             "Quartz": {
               "target": "Package",

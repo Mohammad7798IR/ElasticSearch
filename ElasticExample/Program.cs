@@ -31,7 +31,7 @@ new ElasticClient(
     new ConnectionSettings(new Uri(configuration.GetSection("ElasticSearch")["BaseAddress"]))
              .DisableDirectStreaming()
              //.DefaultIndex("example_users")
-             .DefaultMappingFor<Customer>(a => a.IndexName("customer_companies2"))));
+             .DefaultMappingFor<Customer>(a => a.IndexName("customer_companies"))));
 
 
 var app = builder.Build();

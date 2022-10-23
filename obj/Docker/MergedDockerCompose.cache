@@ -1,0 +1,53 @@
+name: dockercompose1365723417324298752
+services:
+  elasticexample:
+    build:
+      context: C:\Users\Mohammadali.Ebrahimz\Desktop\Elastic\ElasticSearch
+      dockerfile: ElasticExample/Dockerfile
+    depends_on:
+      elasticsearchengine:
+        condition: service_started
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    image: elasticexample
+    links:
+    - elasticsearch
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 80
+      protocol: tcp
+  elasticsearchengine:
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+    image: elastic/elasticsearch:7.17.6
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 9200
+      published: "9200"
+      protocol: tcp
+    - mode: ingress
+      target: 9300
+      published: "9300"
+      protocol: tcp
+  kibana:
+    depends_on:
+      elasticsearchengine:
+        condition: service_started
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearchengine:9200
+    image: kibana:7.17.6
+    networks:
+      default: null
+    ports:
+    - mode: ingress
+      target: 5601
+      published: "5601"
+      protocol: tcp
+networks:
+  default:
+    name: dockercompose1365723417324298752_default
